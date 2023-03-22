@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
+import * as usersController from "./controllers/users";
 
 const PORT = 3000;
 const URL = "mongodb://127.0.0.1:27017/eltrello";
@@ -10,9 +11,14 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+app.post("/api/users", usersController.register);
 
 io.on("connection", () => {
   console.log("Socket.io is running");
