@@ -14,11 +14,8 @@ const io = new Server(httpServer);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
-
 app.post("/api/users", usersController.register);
+app.post("/api/users/login", usersController.login);
 
 io.on("connection", () => {
   console.log("Socket.io is running");
