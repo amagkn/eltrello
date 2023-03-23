@@ -1,15 +1,15 @@
-import { RequestHandler } from "express";
-import { Error } from "mongoose";
-import jwt from "jsonwebtoken";
+import { RequestHandler } from 'express';
+import { Error } from 'mongoose';
+import jwt from 'jsonwebtoken';
 
-import { SECRET } from "../config";
-import { UserModel } from "../models/user";
-import { UserDocument } from "../types/user.interface";
-import { RequestHandlerWithPayload } from "../types/request-handler-with-payload";
+import { SECRET } from '../config';
+import { UserModel } from '../models/user';
+import { UserDocument } from '../types/user.interface';
+import { RequestHandlerWithPayload } from '../types/request-handler-with-payload';
 
 const errorsMessages = {
-  emailOrPassword: "Incorrect email or password",
-  userIsExist: "The user with this email exists",
+  emailOrPassword: 'Incorrect email or password',
+  userIsExist: 'The user with this email exists',
 };
 
 const normalizeUser = (user: UserDocument) => {
@@ -57,7 +57,7 @@ export const login: RequestHandler = async (req, res, next) => {
   try {
     const user = await UserModel.findOne({
       email: req.body.email,
-    }).select("+password");
+    }).select('+password');
 
     if (!user) {
       return res

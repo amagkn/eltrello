@@ -17,7 +17,8 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@dvrepa/prettier": "^1.0.1"
+    "@dvrepa/prettier": "^1.0.1",
+    "prettier": "2.8.6"
   },
   "prettier": "@dvrepa/prettier",
   "scripts": {
