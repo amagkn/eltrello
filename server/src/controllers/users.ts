@@ -3,8 +3,9 @@ import { Error } from "mongoose";
 import jwt from "jsonwebtoken";
 
 import { secret } from "../config";
-import UserModel from "../models/user";
+import { UserModel } from "../models/user";
 import { UserDocument } from "../types/user.interface";
+import { RequestHandlerWithPayload } from "../types/request-handler-with-payload";
 
 const errorsMessages = {
   emailOrPassword: "Incorrect email or password",
@@ -73,6 +74,22 @@ export const login: RequestHandler = async (req, res, next) => {
     }
 
     res.json(normalizeUser(user));
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const currentUser: RequestHandlerWithPayload = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+
+    res.json(normalizeUser(req.user));
   } catch (err) {
     next(err);
   }
