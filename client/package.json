@@ -16,6 +16,10 @@
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@dvrepa/prettier": "^1.0.1"
+  },
+  "prettier": "@dvrepa/prettier",
   "scripts": {
     "start:dev-client": "react-scripts start",
     "build": "react-scripts build",

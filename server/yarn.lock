@@ -9,6 +9,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@dvrepa/prettier@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@dvrepa/prettier/-/prettier-1.0.1.tgz#152abe6f73b66b1732de31ef0830bc674281e5e4"
+  integrity sha512-Rnf1m5tZX3FxZgB+bJZZQ9GQH7CU53aX9jMXtUFECApLw2EMcCJuQBlhxrhk1ULoThe6RJWpZKUm4yPPZ7xo9w==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.1.0"
   resolved "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz"

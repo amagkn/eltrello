@@ -1,0 +1,8 @@
+{
+  "name": "@dvrepa/prettier",
+  "version": "1.0.2",
+  "description": "Prettier config file",
+  "main": "index.json",
+  "author": "dvrepa",
+  "license": "ISC"
+}
