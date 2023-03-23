@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { Error } from "mongoose";
 import jwt from "jsonwebtoken";
 
-import { secret } from "../config";
+import { SECRET } from "../config";
 import { UserModel } from "../models/user";
 import { UserDocument } from "../types/user.interface";
 import { RequestHandlerWithPayload } from "../types/request-handler-with-payload";
@@ -13,7 +13,7 @@ const errorsMessages = {
 };
 
 const normalizeUser = (user: UserDocument) => {
-  const token = jwt.sign({ id: user.id, email: user.email }, secret);
+  const token = jwt.sign({ id: user.id, email: user.email }, SECRET);
 
   return {
     email: user.email,

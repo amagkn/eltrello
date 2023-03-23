@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { secret } from "../config";
+import { SECRET } from "../config";
 import { UserModel } from "../models/user";
 import { RequestHandlerWithPayload } from "../types/request-handler-with-payload";
 
@@ -16,7 +16,7 @@ export const authMiddleware: RequestHandlerWithPayload = async (
     }
 
     const token = authHeader.split(" ")[1];
-    const data = jwt.verify(token, secret) as { id: string; email: string };
+    const data = jwt.verify(token, SECRET) as { id: string; email: string };
 
     const user = await UserModel.findById(data.id);
 

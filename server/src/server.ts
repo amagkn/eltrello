@@ -4,9 +4,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import * as usersController from "./controllers/users";
 import { authMiddleware } from "./middlewares/auth";
-
-const PORT = 3000;
-const URL = "mongodb://127.0.0.1:27017/eltrello";
+import { MONGO_URL, SERVER_PORT } from "./config";
 
 const app = express();
 const httpServer = createServer(app);
@@ -24,12 +22,12 @@ io.on("connection", () => {
 });
 
 mongoose
-  .connect(URL)
+  .connect(MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
 
-    httpServer.listen(PORT, () => {
-      console.log(`Server is started on port ${PORT}`);
+    httpServer.listen(SERVER_PORT, () => {
+      console.log(`Server is started on port ${SERVER_PORT}`);
     });
   })
   .catch((err) => {
