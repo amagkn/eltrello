@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import reportWebVitals from './reportWebVitals';
 import { queryClient } from 'app/queryClient';
-import { QueryClientProvider } from '@tanstack/react-query';
 import { App } from 'app/app';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import 'styles.scss';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
