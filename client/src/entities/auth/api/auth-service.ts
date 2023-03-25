@@ -1,6 +1,6 @@
 import { CurrentUser } from 'entities/auth/types/current-user';
 import { httpGet } from 'shared/api/http';
-import { environment } from 'app/environment';
+import { environment } from 'shared/misc/environment';
 
 export const login = () => null;
 export const register = () => null;
