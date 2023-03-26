@@ -1,12 +1,21 @@
 import React from 'react';
-import { useCurrentUserQuery } from 'entities/auth/hooks/useCurrentUserQuery';
+import { useGetCurrentUserQuery } from 'entities/auth/hooks/use-get-current-user-query';
 import { router } from 'pages/router';
 import { RouterProvider } from 'react-router-dom';
+import { useAuthStore } from 'entities/auth/model/store';
+
+import { requestsWithToken } from 'app/interceptors/requests-with-token';
+
+requestsWithToken();
 
 export const App: React.FC = () => {
-  const { currentUser } = useCurrentUserQuery();
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
 
-  console.log(currentUser);
+  const { getCurrentUserIsLoading } = useGetCurrentUserQuery((currentUser) =>
+    setCurrentUser(currentUser)
+  );
+
+  if (getCurrentUserIsLoading) return <div>Загружаем...</div>;
 
   return <RouterProvider router={router} />;
 };

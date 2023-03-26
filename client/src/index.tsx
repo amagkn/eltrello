@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import reportWebVitals from './reportWebVitals';
-import { queryClient } from 'app/queryClient';
+import { queryClient } from 'app/query-client';
 import { App } from 'app/app';
 import 'styles.scss';
 

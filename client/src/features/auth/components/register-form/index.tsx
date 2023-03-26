@@ -1,35 +1,54 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { RegisterUserRequest } from 'entities/auth/types/register-user-request';
 
-type RegisterDto = {
-  email: string;
-  username: string;
-  password: string;
-};
+import { useRegisterUserMutation } from 'entities/auth/hooks/use-register-user-mutation';
+import { setToken } from 'entities/auth/model/local-storage';
+import { useAuthStore } from 'entities/auth/model/store';
 
 export const RegisterForm: React.FC = () => {
-  const { handleSubmit, register } = useForm<RegisterDto>();
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const navigate = useNavigate();
+  const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
+  const { handleSubmit, register: registerField } =
+    useForm<RegisterUserRequest>();
+
+  const { registerUserMutate, registerUserIsError, registerUserErrorData } =
+    useRegisterUserMutation((currentUser) => {
+      if (currentUser) {
+        setToken(currentUser);
+        setCurrentUser(currentUser);
+
+        navigate('/');
+      }
+    });
+
+  const onSubmit = handleSubmit((data) => registerUserMutate(data));
 
   return (
     <div className="form-container">
       <div className="login-header">Register to Trello</div>
-      <div className="errors"></div>
+      <div className="errors">
+        {registerUserIsError &&
+          registerUserErrorData &&
+          registerUserErrorData.errors.map((msg, i) => (
+            <div key={i}>{msg}</div>
+          ))}
+      </div>
 
       <form onSubmit={onSubmit}>
         <input
-          {...register('email', { required: true })}
+          {...registerField('email')}
           type="email"
           placeholder="Email"
           className="login-input"
         />
         <input
-          {...register('username', { required: true })}
+          {...registerField('username')}
           placeholder="Username"
           className="login-input"
         />
         <input
-          {...register('password', { required: true })}
+          {...registerField('password')}
           type="password"
           placeholder="Password"
           className="login-input"

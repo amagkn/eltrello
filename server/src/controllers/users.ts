@@ -36,7 +36,7 @@ export const register: RequestHandler = async (req, res, next) => {
     });
 
     if (userExist) {
-      return res.status(422).json({ userIsExist: errorsMessages.userIsExist });
+      return res.status(422).json({ errors: [errorsMessages.userIsExist] });
     }
 
     const savedUser = await newUser.save();
@@ -46,7 +46,7 @@ export const register: RequestHandler = async (req, res, next) => {
     if (err instanceof Error.ValidationError) {
       const messages = Object.values(err.errors).map((err) => err.message);
 
-      return res.status(422).json(messages);
+      return res.status(422).json({ errors: messages });
     }
 
     next(err);
@@ -60,17 +60,13 @@ export const login: RequestHandler = async (req, res, next) => {
     }).select('+password');
 
     if (!user) {
-      return res
-        .status(422)
-        .json({ emailOrPassword: errorsMessages.emailOrPassword });
+      return res.status(422).json({ errors: [errorsMessages.emailOrPassword] });
     }
 
     const isValidPassword = await user.validatePassword(req.body.password);
 
     if (!isValidPassword) {
-      return res
-        .status(422)
-        .json({ emailOrPassword: errorsMessages.emailOrPassword });
+      return res.status(422).json({ errors: [errorsMessages.emailOrPassword] });
     }
 
     res.json(normalizeUser(user));
