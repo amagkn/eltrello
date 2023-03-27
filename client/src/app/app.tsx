@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGetCurrentUserQuery } from 'entities/auth/hooks/use-get-current-user-query';
-import { router } from 'pages/router';
+import { router } from 'pages';
 import { RouterProvider } from 'react-router-dom';
 import { useAuthStore } from 'entities/auth/model/store';
 

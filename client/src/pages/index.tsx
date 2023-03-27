@@ -1,18 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { RegisterPage } from 'pages/auth/register-page';
-import { PrivateWrapper } from 'features/auth/components/private-wrapper';
 import { LoginPage } from 'pages/auth/login-page';
+import { HomePage } from 'pages/home';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <PrivateWrapper>
-        <div>
-          <h1>Я - главная страница</h1>
-        </div>
-      </PrivateWrapper>
-    ),
+    element: <HomePage />,
   },
   {
     path: '/login',
