@@ -6,5 +6,5 @@ import { Navigate } from 'react-router-dom';
 export const PrivateWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const currentUser = useAuthStore((state) => state.currentUser);
 
-  return currentUser ? <>{children}</> : <Navigate to="/register" />;
+  return currentUser ? (children as JSX.Element) : <Navigate to="/login" />;
 };
