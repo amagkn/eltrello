@@ -1,11 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import logoImg from 'shared/assets/trello-logo-white.svg';
 import heroImg from 'shared/assets/hero.svg';
 import teamImg from 'shared/assets/work-with-any-team.png';
 import infoImg from 'shared/assets/information.svg';
 import workflowImg from 'shared/assets/workflow.png';
+import { useAuthStore } from 'entities/auth/model/store';
 
 export const HomePage: React.FC = () => {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
+  if (isLoggedIn) {
+    return <Navigate to={'/boards'} />;
+  }
+
   return (
     <>
       <header className="home-header">

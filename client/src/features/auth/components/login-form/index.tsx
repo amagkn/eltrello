@@ -16,7 +16,6 @@ export const LoginForm: React.FC = () => {
       if (currentUser) {
         setToken(currentUser);
         setCurrentUser(currentUser);
-
         navigate('/');
       }
     }

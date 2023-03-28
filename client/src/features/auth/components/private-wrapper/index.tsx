@@ -4,7 +4,11 @@ import { useAuthStore } from 'entities/auth/model/store';
 import { Navigate } from 'react-router-dom';
 
 export const PrivateWrapper: React.FC<PropsWithChildren> = ({ children }) => {
-  const currentUser = useAuthStore((state) => state.currentUser);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-  return currentUser ? (children as JSX.Element) : <Navigate to="/login" />;
+  if (isLoggedIn) {
+    return children as JSX.Element;
+  }
+
+  return <Navigate to="/" />;
 };

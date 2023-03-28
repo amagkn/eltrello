@@ -11,11 +11,7 @@ requestsWithToken();
 export const App: React.FC = () => {
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
 
-  const { getCurrentUserIsLoading } = useGetCurrentUserQuery((currentUser) =>
-    setCurrentUser(currentUser)
-  );
-
-  if (getCurrentUserIsLoading) return <div>Загружаем...</div>;
+  useGetCurrentUserQuery((currentUser) => setCurrentUser(currentUser));
 
   return <RouterProvider router={router} />;
 };
