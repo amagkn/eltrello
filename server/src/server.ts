@@ -4,6 +4,8 @@ import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import * as usersController from './controllers/users';
+import * as boardController from './controllers/boards';
+
 import { authMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
 
@@ -14,10 +16,17 @@ const io = new Server(httpServer);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+mongoose.set('toJSON', {
+  virtuals: true,
+  transform: (_, converter) => {
+    delete converter._id;
+  },
+});
 
 app.post('/api/users', usersController.register);
 app.post('/api/users/login', usersController.login);
 app.get('/api/user', authMiddleware, usersController.currentUser);
+app.get('/api/boards', authMiddleware, boardController.getBoards);
 
 io.on('connection', () => {
   console.log('Socket.io is running');
