@@ -1,5 +1,5 @@
 import { httpGet } from '../../../shared/api/http';
-import { environment } from '../../../shared/misc/environment';
+import { environment } from '../../../shared/config/environment';
 import { Board } from '../types/board';
 
 export const getBoards = async (): Promise<Board[] | null> =>

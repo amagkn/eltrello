@@ -1,6 +1,6 @@
 import { CurrentUser } from 'entities/auth/types/current-user';
 import { httpGet, httpPost } from 'shared/api/http';
-import { environment } from 'shared/misc/environment';
+import { environment } from 'shared/config/environment';
 import { RegisterUserRequest } from 'entities/auth/types/register-user-request';
 import { LoginRequest } from 'entities/auth/types/login-request';
 
