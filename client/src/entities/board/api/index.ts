@@ -1,6 +1,12 @@
-import { httpGet } from '../../../shared/api/http';
+import { httpGet, httpPost } from '../../../shared/api/http';
 import { environment } from '../../../shared/config/environment';
 import { Board } from '../types/board';
 
 export const getBoards = async (): Promise<Board[] | null> =>
   httpGet(environment.REACT_APP_API_URL + '/boards');
+
+export const createBoard = async (title: string): Promise<Board | null> =>
+  httpPost(environment.REACT_APP_API_URL + '/boards', {
+    body: JSON.stringify({ title }),
+    headers: { 'Content-Type': 'application/json' },
+  });

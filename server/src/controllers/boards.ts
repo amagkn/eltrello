@@ -12,3 +12,24 @@ export const getBoards: RequestHandlerWithPayload = async (req, res, next) => {
     next(err);
   }
 };
+
+export const createBoard: RequestHandlerWithPayload = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    if (!req.user) return res.sendStatus(401);
+
+    const board = new BoardModel({
+      title: req.body.title,
+      userId: req.user.id,
+    });
+
+    const savedBoard = await board.save();
+
+    res.json(savedBoard);
+  } catch (err) {
+    next(err);
+  }
+};

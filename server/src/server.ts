@@ -27,6 +27,7 @@ app.post('/api/users', usersController.register);
 app.post('/api/users/login', usersController.login);
 app.get('/api/user', authMiddleware, usersController.currentUser);
 app.get('/api/boards', authMiddleware, boardController.getBoards);
+app.post('/api/boards', authMiddleware, boardController.createBoard);
 
 io.on('connection', () => {
   console.log('Socket.io is running');
