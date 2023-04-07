@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { RegisterPage } from 'pages/auth/register-page';
-import { LoginPage } from 'pages/auth/login-page';
-import { HomePage } from 'pages/home-page';
-import { BoardsPage } from './boards-page';
+import { RegisterPage } from 'pages/auth/register';
+import { LoginPage } from 'pages/auth/login';
+import { HomePage } from 'pages/home';
+import { BoardsPage } from './boards';
 import { PrivateWrapper } from '../features/auth/components/private-wrapper';
+import { BoardPage } from './board';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,14 @@ export const router = createBrowserRouter([
     element: (
       <PrivateWrapper>
         <BoardsPage />
+      </PrivateWrapper>
+    ),
+  },
+  {
+    path: '/boards/:boardId',
+    element: (
+      <PrivateWrapper>
+        <BoardPage />
       </PrivateWrapper>
     ),
   },
