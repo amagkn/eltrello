@@ -3,6 +3,7 @@ import { useGetBoardsQuery } from '../../entities/board/hooks/use-get-boards-que
 import { InlineForm } from '../../shared/components/inline-form';
 import { useCallback } from 'react';
 import { useCreateBoardMutation } from '../../entities/board/hooks/use-create-board-mutation';
+import { TopBar } from '../../features/top-bar';
 
 export const BoardsPage: React.FC = () => {
   const { getBoardsData } = useGetBoardsQuery();
@@ -16,7 +17,7 @@ export const BoardsPage: React.FC = () => {
 
   return (
     <>
-      == APP TOP BAR ==
+      <TopBar />
       <div className="boards-page-container">
         <div className="home-left-sidebar-container">
           <NavLink className="boards-side-menu-option" to="/boards">

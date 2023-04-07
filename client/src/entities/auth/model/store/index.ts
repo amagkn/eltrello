@@ -8,7 +8,7 @@ type State = {
 };
 
 type Actions = {
-  setCurrentUser(currentUser: CurrentUser): void;
+  setCurrentUser(currentUser: CurrentUser | null): void;
 };
 
 export const useAuthStore = create<State & Actions>()(
@@ -16,7 +16,7 @@ export const useAuthStore = create<State & Actions>()(
     (set) => ({
       currentUser: null,
       isLoggedIn: false,
-      setCurrentUser: (currentUser: CurrentUser) =>
+      setCurrentUser: (currentUser) =>
         set(() => ({ currentUser, isLoggedIn: Boolean(currentUser) })),
     }),
     { name: 'auth-store' }
