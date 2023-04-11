@@ -6,7 +6,5 @@ export const BoardPage: React.FC = () => {
 
   const { getBoardData } = useGetBoardQuery(boardId as string);
 
-  console.log(getBoardData);
-
-  return <div>Привет мир</div>;
+  return <div>{getBoardData && JSON.stringify(getBoardData)}</div>;
 };

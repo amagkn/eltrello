@@ -5,15 +5,18 @@ import { RouterProvider } from 'react-router-dom';
 import { useAuthStore } from 'entities/auth/model/store';
 
 import { requestsWithToken } from 'app/interceptors/requests-with-token';
+import { useMainSocketConnection } from '../entities/main-socket-connection/hooks/use-main-socket-connection';
 
 requestsWithToken();
 
 export const App: React.FC = () => {
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
 
-  const { getCurrentUserIsLoading } = useGetCurrentUserQuery((currentUser) =>
-    setCurrentUser(currentUser)
-  );
+  useMainSocketConnection();
+
+  const { getCurrentUserIsLoading } = useGetCurrentUserQuery((currentUser) => {
+    setCurrentUser(currentUser);
+  });
 
   if (getCurrentUserIsLoading) return <div>Loading...</div>;
 

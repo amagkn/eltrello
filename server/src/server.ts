@@ -11,7 +11,7 @@ import { MONGO_URL, SERVER_PORT } from './config';
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, { cors: { origin: '*' } });
 
 app.use(cors());
 app.use(express.json());
