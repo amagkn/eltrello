@@ -1,10 +1,10 @@
 import { removeToken } from '../model/local-storage';
 import { useAuthStore } from '../model/store';
-import { disconnectSocket } from '../../../shared/lib/socket';
+import { mainSocket } from '../../main-socket-connection/main-socket';
 
 export const logout = () => {
   removeToken();
-  disconnectSocket();
+  mainSocket.disconnect();
 
   useAuthStore.getState().setCurrentUser(null);
 };

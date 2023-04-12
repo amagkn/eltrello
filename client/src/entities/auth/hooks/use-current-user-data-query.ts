@@ -2,7 +2,7 @@ import { getCurrentUser } from 'entities/auth/api';
 import { useQuery } from '@tanstack/react-query';
 import { CurrentUser } from 'entities/auth/types/current-user';
 
-export const useGetCurrentUserQuery = (
+export const useCurrentUserDataQuery = (
   onSuccess?: (currentUser: CurrentUser) => void
 ) => {
   const { data, isLoading } = useQuery({
@@ -13,7 +13,7 @@ export const useGetCurrentUserQuery = (
   });
 
   return {
-    getCurrentUserData: data,
-    getCurrentUserIsLoading: isLoading,
+    currentUserData: data,
+    currentUserDataIsLoading: isLoading,
   };
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetCurrentUserQuery } from 'entities/auth/hooks/use-get-current-user-query';
+import { useCurrentUserDataQuery } from 'entities/auth/hooks/use-current-user-data-query';
 import { router } from 'pages';
 import { RouterProvider } from 'react-router-dom';
 import { useAuthStore } from 'entities/auth/model/store';
@@ -12,13 +12,17 @@ requestsWithToken();
 export const App: React.FC = () => {
   const setCurrentUser = useAuthStore((state) => state.setCurrentUser);
 
-  useMainSocketConnection();
+  const { mainSocketIsReady } = useMainSocketConnection();
 
-  const { getCurrentUserIsLoading } = useGetCurrentUserQuery((currentUser) => {
-    setCurrentUser(currentUser);
-  });
+  const { currentUserDataIsLoading } = useCurrentUserDataQuery(
+    (currentUser) => {
+      setCurrentUser(currentUser);
+    }
+  );
 
-  if (getCurrentUserIsLoading) return <div>Loading...</div>;
+  if (currentUserDataIsLoading || !mainSocketIsReady) {
+    return <div>Loading...</div>;
+  }
 
   return <RouterProvider router={router} />;
 };

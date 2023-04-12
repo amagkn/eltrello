@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { getBoard } from '../api';
 
-export const useGetBoardQuery = (boardId: string) => {
+export const useBoardQuery = (boardId?: string) => {
   const { data, isLoading } = useQuery({
     queryKey: ['getBoard', boardId],
-    queryFn: () => getBoard(boardId),
+    queryFn: async () => (boardId ? getBoard(boardId) : null),
     enabled: Boolean(boardId),
   });
 
   return {
-    getBoardData: data,
-    getBoardIsLoading: isLoading,
+    board: data,
+    boardIsLoading: isLoading,
   };
 };

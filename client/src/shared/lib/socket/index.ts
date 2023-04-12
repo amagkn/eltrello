@@ -1,17 +1,27 @@
-import { io, Socket } from 'socket.io-client';
+import { io, Socket as SocketLib } from 'socket.io-client';
 
-export let socket: Socket | null = null;
+export class Socket {
+  private socket: SocketLib | null = null;
 
-export const setupSocket = (url: string, auth: { [key: string]: any }) => {
-  socket = io(url, {
-    auth,
-  });
-};
-
-export const disconnectSocket = () => {
-  if (!socket) {
-    throw new Error('Socket connection is not established');
+  setup(url: string, auth: { [key: string]: any }): void {
+    this.socket = io(url, {
+      auth,
+    });
   }
-  socket.disconnect();
-  socket = null;
-};
+
+  disconnect(): void {
+    if (!this.socket) {
+      throw new Error('Socket connection is not established');
+    }
+    this.socket.disconnect();
+    this.socket = null;
+  }
+
+  emit(eventName: string, message: any): void {
+    if (!this.socket) {
+      throw new Error('Socket connection is not established');
+    }
+
+    this.socket.emit(eventName, message);
+  }
+}

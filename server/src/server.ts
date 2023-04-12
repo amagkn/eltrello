@@ -8,6 +8,7 @@ import * as boardController from './controllers/boards';
 
 import { authMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
+import { MainSocketEvents } from './types/main-socket-events';
 
 const app = express();
 const httpServer = createServer(app);
@@ -30,8 +31,14 @@ app.get('/api/boards', authMiddleware, boardController.getBoards);
 app.post('/api/boards', authMiddleware, boardController.createBoard);
 app.get('/api/boards/:boardId', authMiddleware, boardController.getBoard);
 
-io.on('connection', () => {
-  console.log('Socket.io is running');
+io.on('connection', (socket) => {
+  socket.on(MainSocketEvents.boardsJoin, (data) => {
+    boardController.joinBoard(io, socket, data);
+  });
+
+  socket.on(MainSocketEvents.boardsLeave, (data) => {
+    boardController.leaveBoard(io, socket, data);
+  });
 });
 
 mongoose

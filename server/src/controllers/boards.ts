@@ -1,5 +1,6 @@
 import { RequestHandlerWithPayload } from '../types/request-handler-with-payload';
 import { BoardModel } from '../models/board';
+import { socketEventHandler } from '../types/socket-event-handler';
 
 export const getBoards: RequestHandlerWithPayload = async (req, res, next) => {
   try {
@@ -54,4 +55,22 @@ export const getBoard: RequestHandlerWithPayload = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+export const joinBoard: socketEventHandler<{ boardId: string }> = (
+  io,
+  socket,
+  data
+) => {
+  console.log('server socket io join', data.boardId);
+  socket.join(data.boardId);
+};
+
+export const leaveBoard: socketEventHandler<{ boardId: string }> = (
+  io,
+  socket,
+  data
+) => {
+  console.log('server socket io leave', data.boardId);
+  socket.leave(data.boardId);
 };

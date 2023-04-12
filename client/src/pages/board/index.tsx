@@ -1,10 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { useGetBoardQuery } from '../../entities/board/hooks/use-get-board-query';
+import { useBoardQuery } from '../../entities/board/hooks/use-board-query';
+import { useJoinBoard } from '../../entities/main-socket-connection/hooks/use-join-board';
 
 export const BoardPage: React.FC = () => {
   let { boardId } = useParams();
 
-  const { getBoardData } = useGetBoardQuery(boardId as string);
+  const { board } = useBoardQuery(boardId);
 
-  return <div>{getBoardData && JSON.stringify(getBoardData)}</div>;
+  useJoinBoard(boardId);
+
+  return <div>{board && JSON.stringify(board)}</div>;
 };
