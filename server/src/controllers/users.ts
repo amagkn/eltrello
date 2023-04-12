@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { SECRET } from '../config';
 import { UserModel } from '../models/user';
 import { UserDocument } from '../types/user.interface';
-import { RequestHandlerWithPayload } from '../types/request-handler-with-payload';
+import { RequestHandlerWithPayload } from '../types/http/request-handler-with-payload';
 
 const errorsMessages = {
   emailOrPassword: 'Incorrect email or password',

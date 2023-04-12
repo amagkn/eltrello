@@ -2,13 +2,14 @@ import { Socket } from '../../shared/lib/socket';
 import { environment } from '../../shared/config/environment';
 import { CurrentUser } from '../auth/types/current-user';
 import { MainSocketEvents } from './types/main-socket-events';
+import { createAuthorizationHeader } from '../../shared/config/createAuthorizationHeader';
 
 class MainSocket {
   constructor(private socket: Socket) {}
 
   setup(currentUser: CurrentUser): boolean {
     this.socket.setup(environment.REACT_APP_SOCKET_URL, {
-      token: currentUser.token,
+      token: createAuthorizationHeader(currentUser.token),
     });
 
     return true;

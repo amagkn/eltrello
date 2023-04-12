@@ -1,4 +1,4 @@
-import { httpGet, httpPost } from '../../../shared/api/http';
+import { httpGet, httpPost } from '../../../shared/lib/http';
 import { environment } from '../../../shared/config/environment';
 import { Board } from '../types/board';
 

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { ErrorData } from 'shared/api/http';
+import { ErrorData } from 'shared/lib/http';
 import { createBoard } from '../api';
 import { queryClient } from '../../../shared/config/query-client';
 

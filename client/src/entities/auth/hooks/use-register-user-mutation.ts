@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { registerUser } from 'entities/auth/api';
-import { ErrorData } from 'shared/api/http';
+import { ErrorData } from 'shared/lib/http';
 import { CurrentUser } from 'entities/auth/types/current-user';
 
 export const useRegisterUserMutation = (

@@ -5,6 +5,7 @@ import { setToken } from 'entities/auth/model/local-storage';
 import { useAuthStore } from 'entities/auth/model/store';
 import { LoginRequest } from 'entities/auth/types/login-request';
 import { useLoginMutation } from 'entities/auth/hooks/use-login-user-mutation';
+import { mainSocket } from '../../../../entities/main-socket/main-socket';
 
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ export const LoginForm: React.FC = () => {
       if (currentUser) {
         setToken(currentUser);
         setCurrentUser(currentUser);
+        mainSocket.setup(currentUser);
+
         navigate('/');
       }
     }

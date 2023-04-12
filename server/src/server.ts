@@ -6,7 +6,7 @@ import cors from 'cors';
 import * as usersController from './controllers/users';
 import * as boardController from './controllers/boards';
 
-import { authMiddleware } from './middlewares/auth';
+import { authMiddleware, authSocketMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
 import { MainSocketEvents } from './types/main-socket-events';
 
@@ -31,7 +31,7 @@ app.get('/api/boards', authMiddleware, boardController.getBoards);
 app.post('/api/boards', authMiddleware, boardController.createBoard);
 app.get('/api/boards/:boardId', authMiddleware, boardController.getBoard);
 
-io.on('connection', (socket) => {
+io.use(authSocketMiddleware).on('connection', (socket) => {
   socket.on(MainSocketEvents.boardsJoin, (data) => {
     boardController.joinBoard(io, socket, data);
   });
