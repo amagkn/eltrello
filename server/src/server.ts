@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import * as usersController from './controllers/users';
 import * as boardController from './controllers/boards';
+import * as columnController from './controllers/columns';
 
 import { authMiddleware, authSocketMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
@@ -30,6 +31,11 @@ app.get('/api/user', authMiddleware, usersController.currentUser);
 app.get('/api/boards', authMiddleware, boardController.getBoards);
 app.post('/api/boards', authMiddleware, boardController.createBoard);
 app.get('/api/boards/:boardId', authMiddleware, boardController.getBoard);
+app.get(
+  '/api/boards/:boardId/columns',
+  authMiddleware,
+  columnController.getColumns
+);
 
 io.use(authSocketMiddleware).on('connection', (socket) => {
   socket.on(MainSocketEvents.boardsJoin, (data) => {

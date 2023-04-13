@@ -40,7 +40,7 @@ export const getBoard: RequestHandlerWithPayload = async (req, res, next) => {
     if (!req.user) return res.sendStatus(401);
 
     if (!req.params.boardId) {
-      return res.status(400).json({ errors: ['ID required'] });
+      return res.status(400).json({ errors: ['boardId required'] });
     }
 
     const board = await BoardModel.findById(req.params.boardId);
