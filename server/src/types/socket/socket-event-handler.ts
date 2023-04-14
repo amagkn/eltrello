@@ -1,8 +1,8 @@
 import { Server } from 'socket.io';
 import { SocketWithPayload } from './socket-with-payload';
 
-export type socketEventHandler<T> = (
+export type SocketEventHandler<TData = any> = (
   io: Server,
   socket: SocketWithPayload,
-  data: T
+  data: TData
 ) => void;

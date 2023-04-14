@@ -45,6 +45,10 @@ io.use(authSocketMiddleware).on('connection', (socket) => {
   socket.on(MainSocketEvents.boardsLeave, (data) => {
     boardController.leaveBoard(io, socket, data);
   });
+
+  socket.on(MainSocketEvents.columnsCreate, (data) => {
+    columnController.createColumn(io, socket, data);
+  });
 });
 
 mongoose
