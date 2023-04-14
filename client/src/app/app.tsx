@@ -6,6 +6,7 @@ import { useAuthStore } from 'entities/auth/model/store';
 
 import { requestsWithToken } from 'app/interceptors/requests-with-token';
 import { mainSocket } from '../entities/main-socket/main-socket';
+import { Loader } from '../shared/components/loader';
 
 requestsWithToken();
 
@@ -19,9 +20,7 @@ export const App: React.FC = () => {
     }
   );
 
-  if (currentUserDataIsLoading) {
-    return <div>Loading...</div>;
-  }
+  if (currentUserDataIsLoading) return <Loader />;
 
   return <RouterProvider router={router} />;
 };

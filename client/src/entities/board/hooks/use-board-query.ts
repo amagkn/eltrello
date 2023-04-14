@@ -4,7 +4,7 @@ import { getBoard } from '../api';
 export const useBoardQuery = (boardId?: string) => {
   const { data, isLoading } = useQuery({
     queryKey: ['getBoard', boardId],
-    queryFn: async () => (boardId ? getBoard(boardId) : null),
+    queryFn: () => getBoard(boardId!),
     enabled: Boolean(boardId),
   });
 
