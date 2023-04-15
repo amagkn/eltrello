@@ -12,7 +12,7 @@ export const BoardsPage: React.FC = () => {
 
   const createBoard = useCallback(
     (title: string) => createBoardMutate(title),
-    []
+    [createBoardMutate]
   );
 
   return (

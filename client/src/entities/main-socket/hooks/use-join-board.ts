@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { mainSocket } from '../main-socket';
+import { queryClient } from '../../../shared/config/query-client';
 
-export const useJoinBoard = (boardId?: string) => {
+export const useJoinBoard = (boardId: string) => {
   useEffect(() => {
-    if (boardId) {
-      mainSocket.emitJoinBoard(boardId);
+    mainSocket.emitJoinBoard(boardId);
 
-      return () => {
-        if (boardId) mainSocket.emitLeaveBoard(boardId);
-      };
-    }
+    mainSocket.listenCreateColumnSuccess(() =>
+      queryClient.invalidateQueries(['getColumns'])
+    );
+
+    return () => {
+      mainSocket.emitLeaveBoard(boardId);
+    };
   }, [boardId]);
 };

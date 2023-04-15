@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { getColumns } from '../api';
 
-export const useColumnsQuery = (boardId?: string) => {
+export const useColumnsQuery = (boardId: string) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['getBoards'],
+    queryKey: ['getColumns'],
     queryFn: () => getColumns(boardId!),
-    enabled: Boolean(boardId),
   });
 
   return {

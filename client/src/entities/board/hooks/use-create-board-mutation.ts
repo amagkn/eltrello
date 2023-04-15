@@ -14,7 +14,7 @@ export const useCreateBoardMutation = () => {
   return {
     createBoardMutate: mutate,
     createBoardIsError: isError,
-    createBoardErrorData: error as ErrorData | null,
-    createBoardData: data,
+    createBoardError: error as ErrorData | null,
+    createdBoard: data,
   };
 };

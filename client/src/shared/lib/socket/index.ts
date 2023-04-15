@@ -24,4 +24,12 @@ export class Socket {
 
     this.socket.emit(eventName, message);
   }
+
+  listen<T>(eventName: string, cb: (data: T) => void) {
+    if (!this.socket) {
+      throw new Error('Socket connection is not established');
+    }
+
+    this.socket.on(eventName, cb);
+  }
 }
