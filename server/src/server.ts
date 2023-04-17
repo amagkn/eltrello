@@ -6,6 +6,7 @@ import cors from 'cors';
 import * as usersController from './controllers/users';
 import * as boardController from './controllers/boards';
 import * as columnController from './controllers/columns';
+import * as taskController from './controllers/tasks';
 
 import { authMiddleware, authSocketMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
@@ -36,6 +37,7 @@ app.get(
   authMiddleware,
   columnController.getColumns
 );
+app.get('/api/boards/:boardId/tasks', authMiddleware, taskController.getTasks);
 
 io.use(authSocketMiddleware).on('connection', (socket) => {
   socket.on(MainSocketEvents.boardsJoin, (data) => {
@@ -48,6 +50,10 @@ io.use(authSocketMiddleware).on('connection', (socket) => {
 
   socket.on(MainSocketEvents.columnsCreate, (data) => {
     columnController.createColumn(io, socket, data);
+  });
+
+  socket.on(MainSocketEvents.tasksCreate, (data) => {
+    taskController.createTask(io, socket, data);
   });
 });
 

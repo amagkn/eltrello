@@ -1,13 +1,20 @@
 import { model, Schema } from 'mongoose';
-import { ColumnDocument } from '../types/column.interface';
+import { TaskDocument } from '../types/task.interface';
 
-const columnSchema = new Schema<ColumnDocument>(
+const taskSchema = new Schema<TaskDocument>(
   {
     title: {
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+    },
     userId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    columnId: {
       type: Schema.Types.ObjectId,
       required: true,
     },
@@ -19,4 +26,4 @@ const columnSchema = new Schema<ColumnDocument>(
   { timestamps: true }
 );
 
-export const ColumnModel = model<ColumnDocument>('Column', columnSchema);
+export const TaskModel = model<TaskDocument>('Task', taskSchema);
