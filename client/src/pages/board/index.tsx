@@ -8,12 +8,19 @@ import { InlineForm } from '../../shared/components/inline-form';
 import { useCallback } from 'react';
 import { CreateColumnDto } from '../../entities/column/types/create-column-dto';
 import { useCreateColumnMutation } from '../../entities/column/hooks/use-create-column-mutation';
+import { useTasksQuery } from '../../entities/task/hooks/use-tasks-query';
+import { Task } from '../../entities/task/types/task';
+
+const getTasksByColumn = (columnId: string, tasks: Task[]) => {
+  return tasks.filter((t) => t.columnId === columnId);
+};
 
 export const BoardPage: React.FC = () => {
   let { boardId } = useParams() as { boardId: string };
 
   const { board, boardIsLoading } = useBoardQuery(boardId);
   const { columns, columnsIsLoading } = useColumnsQuery(boardId);
+  const { tasks, tasksIsLoading } = useTasksQuery(boardId);
   const { createColumnMutate } = useCreateColumnMutation();
 
   useJoinBoard(boardId);
@@ -30,7 +37,7 @@ export const BoardPage: React.FC = () => {
     [boardId, createColumnMutate]
   );
 
-  const contentIsLoading = boardIsLoading || columnsIsLoading;
+  const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
   return (
     <>
@@ -47,6 +54,12 @@ export const BoardPage: React.FC = () => {
               columns.map((c) => (
                 <div key={c.id} className="column">
                   <div className="column-title">{c.title}</div>
+                  {tasks &&
+                    getTasksByColumn(c.id, tasks).map((t) => (
+                      <div className="task" key={t.id}>
+                        {t.title}
+                      </div>
+                    ))}
                 </div>
               ))}
             <InlineForm

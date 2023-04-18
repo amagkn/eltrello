@@ -3,4 +3,6 @@ export interface Column {
   title: string;
   createdAt: string;
   updatedAt: string;
+  boardId: string;
+  userId: string;
 }
