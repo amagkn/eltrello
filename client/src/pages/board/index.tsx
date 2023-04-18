@@ -10,6 +10,8 @@ import { CreateColumnDto } from '../../entities/column/types/create-column-dto';
 import { useCreateColumnMutation } from '../../entities/column/hooks/use-create-column-mutation';
 import { useTasksQuery } from '../../entities/task/hooks/use-tasks-query';
 import { Task } from '../../entities/task/types/task';
+import { CreateTaskDto } from '../../entities/task/types/create-task-dto';
+import { useCreateTaskMutation } from '../../entities/task/hooks/use-create-task-mutation';
 
 const getTasksByColumn = (columnId: string, tasks: Task[]) => {
   return tasks.filter((t) => t.columnId === columnId);
@@ -22,20 +24,31 @@ export const BoardPage: React.FC = () => {
   const { columns, columnsIsLoading } = useColumnsQuery(boardId);
   const { tasks, tasksIsLoading } = useTasksQuery(boardId);
   const { createColumnMutate } = useCreateColumnMutation();
+  const { createTaskMutate } = useCreateTaskMutation();
 
   useJoinBoard(boardId);
 
-  const createColumnRequest = useCallback(
+  const createColumn = useCallback(
     (title: string) => {
-      const columnRequest: CreateColumnDto = {
+      const createColumnDto: CreateColumnDto = {
         title,
         boardId,
       };
 
-      createColumnMutate(columnRequest);
+      createColumnMutate(createColumnDto);
     },
     [boardId, createColumnMutate]
   );
+
+  const createTask = (columnId: string) => (title: string) => {
+    const createTaskDto: CreateTaskDto = {
+      title,
+      boardId,
+      columnId,
+    };
+
+    createTaskMutate(createTaskDto);
+  };
 
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
@@ -60,6 +73,15 @@ export const BoardPage: React.FC = () => {
                         {t.title}
                       </div>
                     ))}
+
+                  <InlineForm
+                    className="create-task-form"
+                    inputPlaceholder="Enter a title for this card"
+                    defaultText="Add a card"
+                    buttonText="Add card"
+                    onSubmit={createTask(c.id)}
+                    hasButton
+                  />
                 </div>
               ))}
             <InlineForm
@@ -68,7 +90,7 @@ export const BoardPage: React.FC = () => {
               hasButton
               buttonText="Add list"
               inputPlaceholder="Add column name"
-              onSubmit={createColumnRequest}
+              onSubmit={createColumn}
             />
           </div>
         </div>

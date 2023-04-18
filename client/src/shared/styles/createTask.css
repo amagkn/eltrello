@@ -1,10 +1,8 @@
 .create-task-form {
   border-radius: 3px;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   cursor: pointer;
-  margin: 0 4px;
-  width: 272px;
   min-height: 32px;
+  padding: 15px 0;
 }
 
 .create-task-form .inline-form-container {
@@ -41,7 +39,7 @@
   padding: 0.6em 1.3em !important;
   position: relative;
   text-decoration: none;
-  border: 0px;
+  border: 0;
   margin-top: 10px;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;

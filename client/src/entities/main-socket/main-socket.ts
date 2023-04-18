@@ -6,6 +6,8 @@ import { createAuthorizationHeader } from '../../shared/config/createAuthorizati
 import { CreateColumnDto } from '../column/types/create-column-dto';
 import { Column } from '../column/types/column';
 import { ErrorData } from '../../shared/lib/http';
+import { CreateTaskDto } from '../task/types/create-task-dto';
+import { Task } from '../task/types/task';
 
 class MainSocket {
   constructor(private socket: Socket) {}
@@ -40,6 +42,18 @@ class MainSocket {
 
   listenCreateColumnFailure(cb: (error: ErrorData) => void): void {
     this.socket.listen(MainSocketEvents.columnsCreateFailure, cb);
+  }
+
+  emitCreateTask(taskDto: CreateTaskDto): void {
+    this.socket.emit(MainSocketEvents.tasksCreate, taskDto);
+  }
+
+  listenCreateTaskSuccess(cb: (task: Task) => void): void {
+    this.socket.listen(MainSocketEvents.tasksCreateSuccess, cb);
+  }
+
+  listenCreateTaskFailure(cb: (error: ErrorData) => void): void {
+    this.socket.listen(MainSocketEvents.tasksCreateFailure, cb);
   }
 }
 
