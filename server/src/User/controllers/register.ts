@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { UserModel } from '../../models/user';
+import { UserModel } from '../models/user';
 import { Error } from 'mongoose';
 import { errorsMessages, normalizeUser } from '../helpers';
 

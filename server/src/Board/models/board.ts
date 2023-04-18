@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { BoardDocument } from '../types/board.interface';
+import { BoardDocument } from '../../app/types/board.interface';
 
 const boardSchema = new Schema<BoardDocument>(
   {

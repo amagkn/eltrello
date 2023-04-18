@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { UserModel } from '../../models/user';
+import { UserModel } from '../models/user';
 import { errorsMessages, normalizeUser } from '../helpers';
 
 export const login: RequestHandler = async (req, res, next) => {

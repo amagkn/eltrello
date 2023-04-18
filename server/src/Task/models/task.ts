@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { TaskDocument } from '../types/task.interface';
+import { TaskDocument } from '../../app/types/task.interface';
 
 const taskSchema = new Schema<TaskDocument>(
   {

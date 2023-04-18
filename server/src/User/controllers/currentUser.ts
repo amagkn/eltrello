@@ -1,4 +1,4 @@
-import { RequestHandlerWithPayload } from '../../types/http/request-handler-with-payload';
+import { RequestHandlerWithPayload } from '../../app/types/http/request-handler-with-payload';
 import { normalizeUser } from '../helpers';
 
 export const currentUser: RequestHandlerWithPayload = async (

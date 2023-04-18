@@ -1,6 +1,6 @@
 import express from 'express';
 import { login } from './controllers/login';
-import { authMiddleware } from '../middlewares/auth';
+import { authMiddleware } from '../app/middlewares/auth';
 import { currentUser } from './controllers/currentUser';
 import { register } from './controllers/register';
 

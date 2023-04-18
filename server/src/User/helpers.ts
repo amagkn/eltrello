@@ -1,6 +1,6 @@
-import { UserDocument } from '../types/user.interface';
+import { UserDocument } from '../app/types/user.interface';
 import jwt from 'jsonwebtoken';
-import { SECRET } from '../config';
+import { SECRET } from '../app/config';
 
 export const errorsMessages = {
   emailOrPassword: 'Incorrect email or password',

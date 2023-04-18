@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { SECRET } from '../config';
-import { UserModel } from '../models/user';
+import { UserModel } from '../../User/models/user';
 import { RequestHandlerWithPayload } from '../types/http/request-handler-with-payload';
 import { TokenPayload } from '../types/token-payload';
 import { SocketWithPayload } from '../types/socket/socket-with-payload';

@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { ColumnDocument } from '../types/column.interface';
+import { ColumnDocument } from '../../app/types/column.interface';
 
 const columnSchema = new Schema<ColumnDocument>(
   {

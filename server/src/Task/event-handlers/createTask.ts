@@ -1,26 +1,7 @@
-import { RequestHandlerWithPayload } from '../types/http/request-handler-with-payload';
-import { SocketEventHandler } from '../types/socket/socket-event-handler';
-import { MainSocketEvents } from '../types/main-socket-events';
-import { getErrorMessage } from '../helpers';
+import { SocketEventHandler } from '../../app/types/socket/socket-event-handler';
+import { MainSocketEvents } from '../../app/types/main-socket-events';
+import { getErrorMessage } from '../../helpers';
 import { TaskModel } from '../models/task';
-
-export const getTasks: RequestHandlerWithPayload = async (req, res, next) => {
-  try {
-    if (!req.user) return res.sendStatus(401);
-
-    if (!req.params.boardId) {
-      return res.status(400).json({ errors: ['boardId required'] });
-    }
-
-    const tasks = await TaskModel.find({
-      boardId: req.params.boardId,
-    });
-
-    res.json(tasks);
-  } catch (err) {
-    next(err);
-  }
-};
 
 export const createTask: SocketEventHandler<{
   title: string;

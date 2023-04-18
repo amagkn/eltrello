@@ -3,14 +3,16 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import * as boardController from './controllers/boards';
-import * as columnController from './controllers/columns';
-import * as taskController from './controllers/tasks';
 
-import { authMiddleware, authSocketMiddleware } from './middlewares/auth';
-import { MONGO_URL, SERVER_PORT } from './config';
-import { MainSocketEvents } from './types/main-socket-events';
+import { authSocketMiddleware } from './app/middlewares/auth';
+import { MONGO_URL, SERVER_PORT } from './app/config';
 import { UserRouter } from './User/router';
+import { BoardRouter } from './Board/router';
+import { useBoardEvents } from './Board/use-events';
+import { useColumnEvents } from './Column/use-events';
+import { ColumnRouter } from './Column/router';
+import { useTaskEvents } from './Task/use-events';
+import { TaskRouter } from './Task/router';
 
 const app = express();
 const httpServer = createServer(app);
@@ -27,32 +29,14 @@ mongoose.set('toJSON', {
 });
 
 app.use('/api/user', UserRouter);
-app.get('/api/boards', authMiddleware, boardController.getBoards);
-app.post('/api/boards', authMiddleware, boardController.createBoard);
-app.get('/api/boards/:boardId', authMiddleware, boardController.getBoard);
-app.get(
-  '/api/boards/:boardId/columns',
-  authMiddleware,
-  columnController.getColumns
-);
-app.get('/api/boards/:boardId/tasks', authMiddleware, taskController.getTasks);
+app.use('/api/board', BoardRouter);
+app.use('/api/column', ColumnRouter);
+app.use('/api/task', TaskRouter);
 
 io.use(authSocketMiddleware).on('connection', (socket) => {
-  socket.on(MainSocketEvents.boardsJoin, (data) => {
-    boardController.joinBoard(io, socket, data);
-  });
-
-  socket.on(MainSocketEvents.boardsLeave, (data) => {
-    boardController.leaveBoard(io, socket, data);
-  });
-
-  socket.on(MainSocketEvents.columnsCreate, (data) => {
-    columnController.createColumn(io, socket, data);
-  });
-
-  socket.on(MainSocketEvents.tasksCreate, (data) => {
-    taskController.createTask(io, socket, data);
-  });
+  useBoardEvents(io, socket);
+  useColumnEvents(io, socket);
+  useTaskEvents(io, socket);
 });
 
 mongoose
