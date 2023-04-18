@@ -7,14 +7,14 @@ import { LoginRequest } from 'entities/auth/types/login-request';
 export const login = (
   loginRequest: LoginRequest
 ): Promise<CurrentUser | null> =>
-  httpPost(environment.REACT_APP_API_URL + '/users/login', {
+  httpPost(environment.REACT_APP_API_URL + '/user/login', {
     body: JSON.stringify(loginRequest),
     headers: { 'Content-Type': 'application/json' },
   });
 export const registerUser = (
   registerRequest: RegisterUserRequest
 ): Promise<CurrentUser | null> =>
-  httpPost(environment.REACT_APP_API_URL + '/users', {
+  httpPost(environment.REACT_APP_API_URL + '/user', {
     body: JSON.stringify(registerRequest),
     headers: { 'Content-Type': 'application/json' },
   });

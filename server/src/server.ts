@@ -3,7 +3,6 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import * as usersController from './controllers/users';
 import * as boardController from './controllers/boards';
 import * as columnController from './controllers/columns';
 import * as taskController from './controllers/tasks';
@@ -11,6 +10,7 @@ import * as taskController from './controllers/tasks';
 import { authMiddleware, authSocketMiddleware } from './middlewares/auth';
 import { MONGO_URL, SERVER_PORT } from './config';
 import { MainSocketEvents } from './types/main-socket-events';
+import { UserRouter } from './User/router';
 
 const app = express();
 const httpServer = createServer(app);
@@ -26,9 +26,7 @@ mongoose.set('toJSON', {
   },
 });
 
-app.post('/api/users', usersController.register);
-app.post('/api/users/login', usersController.login);
-app.get('/api/user', authMiddleware, usersController.currentUser);
+app.use('/api/user', UserRouter);
 app.get('/api/boards', authMiddleware, boardController.getBoards);
 app.post('/api/boards', authMiddleware, boardController.createBoard);
 app.get('/api/boards/:boardId', authMiddleware, boardController.getBoard);
