@@ -12,6 +12,7 @@ import { useTasksQuery } from '../../entities/task/hooks/use-tasks-query';
 import { Task } from '../../entities/task/types/task';
 import { CreateTaskDto } from '../../entities/task/types/create-task-dto';
 import { useCreateTaskMutation } from '../../entities/task/hooks/use-create-task-mutation';
+import { useUpdateBoardMutation } from '../../entities/board/hooks/use-update-board-mutation';
 
 const getTasksByColumn = (columnId: string, tasks: Task[]) => {
   return tasks.filter((t) => t.columnId === columnId);
@@ -25,6 +26,7 @@ export const BoardPage: React.FC = () => {
   const { tasks, tasksIsLoading } = useTasksQuery(boardId);
   const { createColumnMutate } = useCreateColumnMutation();
   const { createTaskMutate } = useCreateTaskMutation();
+  const { updateBoardMutate } = useUpdateBoardMutation();
 
   useJoinBoard(boardId);
 
@@ -50,6 +52,18 @@ export const BoardPage: React.FC = () => {
     createTaskMutate(createTaskDto);
   };
 
+  const updateBoardName = useCallback(
+    (title: string) => {
+      const updateColumnDto = {
+        boardId,
+        fields: { title },
+      };
+
+      updateBoardMutate(updateColumnDto);
+    },
+    [boardId, createColumnMutate]
+  );
+
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
   return (
@@ -60,7 +74,14 @@ export const BoardPage: React.FC = () => {
 
       {!contentIsLoading && (
         <div className="board">
-          <div className="board-header-container">== INLINE FORM BOARD==</div>
+          <div className="board-header-container">
+            <InlineForm
+              className="edit-board-form"
+              defaultText={board?.title}
+              title={board?.title}
+              onSubmit={updateBoardName}
+            />
+          </div>
 
           <div className="columns">
             {columns &&

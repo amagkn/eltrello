@@ -7,12 +7,16 @@ export const useJoinBoard = (boardId: string) => {
     mainSocket.emitJoinBoard(boardId);
 
     mainSocket.listenCreateColumnSuccess(() =>
-      queryClient.invalidateQueries(['getColumns'])
+      queryClient.invalidateQueries(['getColumns', boardId])
     );
 
     mainSocket.listenCreateTaskSuccess(() =>
-      queryClient.invalidateQueries(['getTasks'])
+      queryClient.invalidateQueries(['getTasks', boardId])
     );
+
+    mainSocket.listenUpdateBoardSuccess(() => {
+      queryClient.invalidateQueries(['getBoard', boardId]);
+    });
 
     return () => {
       mainSocket.emitLeaveBoard(boardId);

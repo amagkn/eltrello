@@ -8,6 +8,7 @@ import { Column } from '../column/types/column';
 import { ErrorData } from '../../shared/lib/http';
 import { CreateTaskDto } from '../task/types/create-task-dto';
 import { Task } from '../task/types/task';
+import { Board } from '../board/types/board';
 
 class MainSocket {
   constructor(private socket: Socket) {}
@@ -30,6 +31,16 @@ class MainSocket {
 
   emitLeaveBoard(boardId: string): void {
     this.socket.emit(MainSocketEvents.boardsLeave, { boardId });
+  }
+  emitUpdateBoard(payload: {
+    boardId: string;
+    fields: { title: string };
+  }): void {
+    this.socket.emit(MainSocketEvents.boardsUpdate, payload);
+  }
+
+  listenUpdateBoardSuccess(cb: (task: Board) => void): void {
+    this.socket.listen(MainSocketEvents.boardsUpdateSuccess, cb);
   }
 
   emitCreateColumn(columnDto: CreateColumnDto): void {
