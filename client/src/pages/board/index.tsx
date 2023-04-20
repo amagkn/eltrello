@@ -13,6 +13,7 @@ import { Task } from '../../entities/task/types/task';
 import { CreateTaskDto } from '../../entities/task/types/create-task-dto';
 import { useCreateTaskMutation } from '../../entities/task/hooks/use-create-task-mutation';
 import { useUpdateBoardMutation } from '../../entities/board/hooks/use-update-board-mutation';
+import { useDeleteBoardMutation } from '../../entities/board/hooks/use-delete-board-mutation';
 
 const getTasksByColumn = (columnId: string, tasks: Task[]) => {
   return tasks.filter((t) => t.columnId === columnId);
@@ -27,6 +28,7 @@ export const BoardPage: React.FC = () => {
   const { createColumnMutate } = useCreateColumnMutation();
   const { createTaskMutate } = useCreateTaskMutation();
   const { updateBoardMutate } = useUpdateBoardMutation();
+  const { deleteBoardMutation } = useDeleteBoardMutation();
 
   useJoinBoard(boardId);
 
@@ -64,6 +66,14 @@ export const BoardPage: React.FC = () => {
     [boardId, createColumnMutate]
   );
 
+  const deleteBoard = () => {
+    const confirmed = window.confirm('Are you sure you want to delete board?');
+
+    if (confirmed) {
+      deleteBoardMutation({ boardId });
+    }
+  };
+
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
   return (
@@ -81,6 +91,9 @@ export const BoardPage: React.FC = () => {
               title={board?.title}
               onSubmit={updateBoardName}
             />
+            <div className="delete-board" onClick={deleteBoard}>
+              Delete board
+            </div>
           </div>
 
           <div className="columns">

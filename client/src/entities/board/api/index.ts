@@ -19,3 +19,6 @@ export const updateBoard = async (payload: {
   boardId: string;
   fields: { title: string };
 }) => mainSocket.emitUpdateBoard(payload);
+
+export const deleteBoard = async (payload: { boardId: string }) =>
+  mainSocket.emitDeleteBoard(payload);
