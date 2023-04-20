@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useBoardQuery } from '../../entities/board/hooks/use-board-query';
 import { useJoinBoard } from '../../features/main-socket/hooks/use-join-board';
 import { useColumnsQuery } from '../../entities/column/hooks/use-columns-query';
@@ -23,6 +23,7 @@ const getTasksByColumn = (columnId: string, tasks: Task[]) => {
 };
 
 export const BoardPage: React.FC = () => {
+  const navigate = useNavigate();
   let { boardId } = useParams() as { boardId: string };
 
   const { board, boardIsLoading } = useBoardQuery(boardId);
@@ -97,6 +98,10 @@ export const BoardPage: React.FC = () => {
     updateColumnMutate(updateColumnDto);
   };
 
+  const openTask = (taskId: string) => () => {
+    navigate(`tasks/${taskId}`);
+  };
+
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
   return (
@@ -106,64 +111,72 @@ export const BoardPage: React.FC = () => {
       {contentIsLoading && <Loader />}
 
       {!contentIsLoading && (
-        <div className="board">
-          <div className="board-header-container">
-            <InlineForm
-              className="edit-board-form"
-              defaultText={board?.title}
-              title={board?.title}
-              onSubmit={updateBoardName}
-            />
-            <div className="delete-board" onClick={deleteBoard}>
-              Delete board
+        <>
+          <div className="board">
+            <div className="board-header-container">
+              <InlineForm
+                className="edit-board-form"
+                defaultText={board?.title}
+                title={board?.title}
+                onSubmit={updateBoardName}
+              />
+              <div className="delete-board" onClick={deleteBoard}>
+                Delete board
+              </div>
+            </div>
+
+            <div className="columns">
+              {columns &&
+                columns.map((c) => (
+                  <div key={c.id} className="column">
+                    <div className="column-title">
+                      <InlineForm
+                        className="edit-column-form"
+                        defaultText={c.title}
+                        title={c.title}
+                        onSubmit={updateColumnName(c.id)}
+                      />{' '}
+                      <img
+                        alt="close-icon"
+                        className="column-delete-icon"
+                        onClick={deleteColumn(c.id)}
+                        src={closeIcon}
+                      />
+                    </div>
+                    {tasks &&
+                      getTasksByColumn(c.id, tasks).map((t) => (
+                        <div
+                          className="task"
+                          key={t.id}
+                          onClick={openTask(t.id)}
+                        >
+                          {t.title}
+                        </div>
+                      ))}
+
+                    <InlineForm
+                      className="create-task-form"
+                      inputPlaceholder="Enter a title for this card"
+                      defaultText="Add a card"
+                      buttonText="Add card"
+                      onSubmit={createTask(c.id)}
+                      hasButton
+                    />
+                  </div>
+                ))}
+              <InlineForm
+                className="create-column-form"
+                defaultText="Add a list"
+                hasButton
+                buttonText="Add list"
+                inputPlaceholder="Add column name"
+                onSubmit={createColumn}
+              />
             </div>
           </div>
 
-          <div className="columns">
-            {columns &&
-              columns.map((c) => (
-                <div key={c.id} className="column">
-                  <div className="column-title">
-                    <InlineForm
-                      className="edit-column-form"
-                      defaultText={c.title}
-                      title={c.title}
-                      onSubmit={updateColumnName(c.id)}
-                    />{' '}
-                    <img
-                      alt="close-icon"
-                      className="column-delete-icon"
-                      onClick={deleteColumn(c.id)}
-                      src={closeIcon}
-                    />
-                  </div>
-                  {tasks &&
-                    getTasksByColumn(c.id, tasks).map((t) => (
-                      <div className="task" key={t.id}>
-                        {t.title}
-                      </div>
-                    ))}
-
-                  <InlineForm
-                    className="create-task-form"
-                    inputPlaceholder="Enter a title for this card"
-                    defaultText="Add a card"
-                    buttonText="Add card"
-                    onSubmit={createTask(c.id)}
-                    hasButton
-                  />
-                </div>
-              ))}
-            <InlineForm
-              className="create-column-form"
-              defaultText="Add a list"
-              hasButton
-              buttonText="Add list"
-              inputPlaceholder="Add column name"
-              onSubmit={createColumn}
-            />
-          </div>
-        </div>
+          <Outlet />
+        </>
       )}
     </>
   );

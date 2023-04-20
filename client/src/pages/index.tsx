@@ -5,6 +5,7 @@ import { HomePage } from 'pages/home';
 import { BoardsPage } from './boards';
 import { PrivateWrapper } from '../features/auth/components/private-wrapper';
 import { BoardPage } from './board';
+import { BoardPageWithTaskModal } from './board/components/TaskModal';
 
 export const router = createBrowserRouter([
   {
@@ -12,15 +13,15 @@ export const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: '/login',
+    path: 'login',
     element: <LoginPage />,
   },
   {
-    path: '/register',
+    path: 'register',
     element: <RegisterPage />,
   },
   {
-    path: '/boards',
+    path: 'boards',
     element: (
       <PrivateWrapper>
         <BoardsPage />
@@ -28,11 +29,17 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/boards/:boardId',
+    path: 'boards/:boardId',
     element: (
       <PrivateWrapper>
         <BoardPage />
       </PrivateWrapper>
     ),
+    children: [
+      {
+        path: 'tasks/:taskId',
+        element: <BoardPageWithTaskModal />,
+      },
+    ],
   },
 ]);
