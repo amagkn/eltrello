@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { mainSocket } from '../main-socket';
-import { useAuthStore } from '../../auth/model/store';
+import { useAuthStore } from '../../../entities/auth/model/store';
 
 export const useMainSocketConnection = () => {
   const [mainSocketIsReady, setMainSocketIsReady] = useState(false);

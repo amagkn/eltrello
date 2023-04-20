@@ -1,6 +1,6 @@
 import { removeToken } from '../model/local-storage';
 import { useAuthStore } from '../model/store';
-import { mainSocket } from '../../main-socket/main-socket';
+import { mainSocket } from '../../../features/main-socket/main-socket';
 
 export const logout = () => {
   removeToken();

@@ -5,7 +5,7 @@ import { RegisterUserRequest } from 'entities/auth/types/register-user-request';
 import { useRegisterUserMutation } from 'entities/auth/hooks/use-register-user-mutation';
 import { setToken } from 'entities/auth/model/local-storage';
 import { useAuthStore } from 'entities/auth/model/store';
-import { mainSocket } from '../../../../entities/main-socket/main-socket';
+import { mainSocket } from '../../../main-socket/main-socket';
 
 export const RegisterForm: React.FC = () => {
   const navigate = useNavigate();

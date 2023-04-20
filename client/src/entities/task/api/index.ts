@@ -1,7 +1,7 @@
 import { httpGet } from '../../../shared/lib/http';
 import { environment } from '../../../shared/config/environment';
 import { Task } from '../types/task';
-import { mainSocket } from '../../main-socket/main-socket';
+import { mainSocket } from '../../../features/main-socket/main-socket';
 import { CreateTaskDto } from '../types/create-task-dto';
 
 export const getTasks = async (boardId: string): Promise<Task[] | null> =>

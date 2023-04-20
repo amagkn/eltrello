@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useBoardQuery } from '../../entities/board/hooks/use-board-query';
-import { useJoinBoard } from '../../entities/main-socket/hooks/use-join-board';
+import { useJoinBoard } from '../../features/main-socket/hooks/use-join-board';
 import { useColumnsQuery } from '../../entities/column/hooks/use-columns-query';
 import { Loader } from '../../shared/components/loader';
 import { TopBar } from '../../features/top-bar';
@@ -16,6 +16,7 @@ import { useUpdateBoardMutation } from '../../entities/board/hooks/use-update-bo
 import { useDeleteBoardMutation } from '../../entities/board/hooks/use-delete-board-mutation';
 import { useDeleteColumnMutation } from '../../entities/column/hooks/use-delete-column-mutation';
 import closeIcon from 'shared/assets/close_icon.svg';
+import { useUpdateColumnMutation } from '../../entities/column/hooks/use-update-column-mutation';
 
 const getTasksByColumn = (columnId: string, tasks: Task[]) => {
   return tasks.filter((t) => t.columnId === columnId);
@@ -32,6 +33,7 @@ export const BoardPage: React.FC = () => {
   const { updateBoardMutate } = useUpdateBoardMutation();
   const { deleteBoardMutation } = useDeleteBoardMutation();
   const { deleteColumnMutation } = useDeleteColumnMutation();
+  const { updateColumnMutate } = useUpdateColumnMutation();
 
   useJoinBoard(boardId);
 
@@ -59,12 +61,12 @@ export const BoardPage: React.FC = () => {
 
   const updateBoardName = useCallback(
     (title: string) => {
-      const updateColumnDto = {
+      const updateBoardDto = {
         boardId,
         fields: { title },
       };
 
-      updateBoardMutate(updateColumnDto);
+      updateBoardMutate(updateBoardDto);
     },
     [boardId, createColumnMutate]
   );
@@ -83,6 +85,16 @@ export const BoardPage: React.FC = () => {
     if (confirmed) {
       deleteColumnMutation({ columnId, boardId });
     }
+  };
+
+  const updateColumnName = (columnId: string) => (title: string) => {
+    const updateColumnDto = {
+      boardId,
+      columnId,
+      fields: { title },
+    };
+
+    updateColumnMutate(updateColumnDto);
   };
 
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
@@ -112,7 +124,12 @@ export const BoardPage: React.FC = () => {
               columns.map((c) => (
                 <div key={c.id} className="column">
                   <div className="column-title">
-                    {c.title}{' '}
+                    <InlineForm
+                      className="edit-column-form"
+                      defaultText={c.title}
+                      title={c.title}
+                      onSubmit={updateColumnName(c.id)}
+                    />{' '}
                     <img
                       alt="close-icon"
                       className="column-delete-icon"

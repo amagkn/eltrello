@@ -1,13 +1,13 @@
 import { Socket } from '../../shared/lib/socket';
 import { environment } from '../../shared/config/environment';
-import { CurrentUser } from '../auth/types/current-user';
+import { CurrentUser } from '../../entities/auth/types/current-user';
 import { MainSocketEvents } from './types/main-socket-events';
 import { createAuthorizationHeader } from '../../shared/config/createAuthorizationHeader';
-import { CreateColumnDto } from '../column/types/create-column-dto';
-import { Column } from '../column/types/column';
-import { CreateTaskDto } from '../task/types/create-task-dto';
-import { Task } from '../task/types/task';
-import { Board } from '../board/types/board';
+import { CreateColumnDto } from '../../entities/column/types/create-column-dto';
+import { Column } from '../../entities/column/types/column';
+import { CreateTaskDto } from '../../entities/task/types/create-task-dto';
+import { Task } from '../../entities/task/types/task';
+import { Board } from '../../entities/board/types/board';
 
 class MainSocket {
   constructor(private socket: Socket) {}
@@ -38,7 +38,7 @@ class MainSocket {
     this.socket.emit(MainSocketEvents.boardsUpdate, payload);
   }
 
-  listenUpdateBoardSuccess(cb: (board: Board) => void): void {
+  listenUpdateBoardSuccess(cb: (updatedBoard: Board) => void): void {
     this.socket.listen(MainSocketEvents.boardsUpdateSuccess, cb);
   }
 
@@ -46,7 +46,7 @@ class MainSocket {
     this.socket.emit(MainSocketEvents.boardsDelete, payload);
   }
 
-  listenDeleteBoardSuccess(cb: (board: Board) => void): void {
+  listenDeleteBoardSuccess(cb: (deletedBoard: Board) => void): void {
     this.socket.listen(MainSocketEvents.boardsDeleteSuccess, cb);
   }
 
@@ -64,6 +64,18 @@ class MainSocket {
 
   listenDeleteColumnSuccess(cb: (deletedColumn: Column) => void): void {
     this.socket.listen(MainSocketEvents.columnsDeleteSuccess, cb);
+  }
+
+  emitUpdateColumn(payload: {
+    boardId: string;
+    columnId: string;
+    fields: { title: string };
+  }): void {
+    this.socket.emit(MainSocketEvents.columnsUpdate, payload);
+  }
+
+  listenUpdateColumnSuccess(cb: (updatedColumn: Column) => void): void {
+    this.socket.listen(MainSocketEvents.columnsUpdateSuccess, cb);
   }
 
   emitCreateTask(taskDto: CreateTaskDto): void {

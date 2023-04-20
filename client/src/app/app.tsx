@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom';
 import { useAuthStore } from 'entities/auth/model/store';
 
 import { requestsWithToken } from 'app/interceptors/requests-with-token';
-import { mainSocket } from '../entities/main-socket/main-socket';
+import { mainSocket } from '../features/main-socket/main-socket';
 import { Loader } from '../shared/components/loader';
 
 requestsWithToken();
