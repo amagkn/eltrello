@@ -9,3 +9,8 @@ export const getColumns = async (boardId: string): Promise<Column[] | null> =>
 
 export const createColumn = async (columnDto: CreateColumnDto) =>
   mainSocket.emitCreateColumn(columnDto);
+
+export const deleteColumn = async (payload: {
+  columnId: string;
+  boardId: string;
+}) => mainSocket.emitDeleteColumn(payload);

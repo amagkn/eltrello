@@ -58,6 +58,14 @@ class MainSocket {
     this.socket.listen(MainSocketEvents.columnsCreateSuccess, cb);
   }
 
+  emitDeleteColumn(payload: { columnId: string; boardId: string }): void {
+    this.socket.emit(MainSocketEvents.columnsDelete, payload);
+  }
+
+  listenDeleteColumnSuccess(cb: (deletedColumn: Column) => void): void {
+    this.socket.listen(MainSocketEvents.columnsDeleteSuccess, cb);
+  }
+
   emitCreateTask(taskDto: CreateTaskDto): void {
     this.socket.emit(MainSocketEvents.tasksCreate, taskDto);
   }

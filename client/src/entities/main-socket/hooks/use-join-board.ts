@@ -13,6 +13,10 @@ export const useJoinBoard = (boardId: string) => {
       queryClient.invalidateQueries(['getColumns', boardId])
     );
 
+    mainSocket.listenDeleteColumnSuccess(() =>
+      queryClient.invalidateQueries(['getColumns', boardId])
+    );
+
     mainSocket.listenCreateTaskSuccess(() =>
       queryClient.invalidateQueries(['getTasks', boardId])
     );

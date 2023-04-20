@@ -14,6 +14,8 @@ import { CreateTaskDto } from '../../entities/task/types/create-task-dto';
 import { useCreateTaskMutation } from '../../entities/task/hooks/use-create-task-mutation';
 import { useUpdateBoardMutation } from '../../entities/board/hooks/use-update-board-mutation';
 import { useDeleteBoardMutation } from '../../entities/board/hooks/use-delete-board-mutation';
+import { useDeleteColumnMutation } from '../../entities/column/hooks/use-delete-column-mutation';
+import closeIcon from 'shared/assets/close_icon.svg';
 
 const getTasksByColumn = (columnId: string, tasks: Task[]) => {
   return tasks.filter((t) => t.columnId === columnId);
@@ -29,6 +31,7 @@ export const BoardPage: React.FC = () => {
   const { createTaskMutate } = useCreateTaskMutation();
   const { updateBoardMutate } = useUpdateBoardMutation();
   const { deleteBoardMutation } = useDeleteBoardMutation();
+  const { deleteColumnMutation } = useDeleteColumnMutation();
 
   useJoinBoard(boardId);
 
@@ -74,6 +77,14 @@ export const BoardPage: React.FC = () => {
     }
   };
 
+  const deleteColumn = (columnId: string) => () => {
+    const confirmed = window.confirm('Are you sure you want to delete column?');
+
+    if (confirmed) {
+      deleteColumnMutation({ columnId, boardId });
+    }
+  };
+
   const contentIsLoading = boardIsLoading || columnsIsLoading || tasksIsLoading;
 
   return (
@@ -100,7 +111,15 @@ export const BoardPage: React.FC = () => {
             {columns &&
               columns.map((c) => (
                 <div key={c.id} className="column">
-                  <div className="column-title">{c.title}</div>
+                  <div className="column-title">
+                    {c.title}{' '}
+                    <img
+                      alt="close-icon"
+                      className="column-delete-icon"
+                      onClick={deleteColumn(c.id)}
+                      src={closeIcon}
+                    />
+                  </div>
                   {tasks &&
                     getTasksByColumn(c.id, tasks).map((t) => (
                       <div className="task" key={t.id}>
