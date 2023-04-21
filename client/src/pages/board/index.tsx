@@ -69,7 +69,7 @@ export const BoardPage: React.FC = () => {
 
       updateBoardMutate(updateBoardDto);
     },
-    [boardId, createColumnMutate]
+    [boardId, updateBoardMutate]
   );
 
   const deleteBoard = () => {

@@ -5,7 +5,7 @@ import { HomePage } from 'pages/home';
 import { BoardsPage } from './boards';
 import { PrivateWrapper } from '../features/auth/components/private-wrapper';
 import { BoardPage } from './board';
-import { BoardPageWithTaskModal } from './board/components/TaskModal';
+import { TaskModal } from './board/components/TaskModal';
 
 export const router = createBrowserRouter([
   {
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'tasks/:taskId',
-        element: <BoardPageWithTaskModal />,
+        element: <TaskModal />,
       },
     ],
   },

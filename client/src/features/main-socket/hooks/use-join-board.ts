@@ -17,15 +17,19 @@ export const useJoinBoard = (boardId: string) => {
       queryClient.invalidateQueries(['getColumns', boardId])
     );
 
-    mainSocket.listenDeleteColumnSuccess(() =>
-      queryClient.invalidateQueries(['getColumns', boardId])
-    );
-
     mainSocket.listenUpdateColumnSuccess(() =>
       queryClient.invalidateQueries(['getColumns', boardId])
     );
 
     mainSocket.listenCreateTaskSuccess(() =>
+      queryClient.invalidateQueries(['getTasks', boardId])
+    );
+
+    mainSocket.listenUpdateTaskSuccess(() =>
+      queryClient.invalidateQueries(['getTasks', boardId])
+    );
+
+    mainSocket.listenDeleteTaskSuccess(() =>
       queryClient.invalidateQueries(['getTasks', boardId])
     );
 
@@ -40,5 +44,5 @@ export const useJoinBoard = (boardId: string) => {
     return () => {
       mainSocket.emitLeaveBoard(boardId);
     };
-  }, [boardId]);
+  }, [boardId, navigate]);
 };

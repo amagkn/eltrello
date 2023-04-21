@@ -85,6 +85,26 @@ class MainSocket {
   listenCreateTaskSuccess(cb: (task: Task) => void): void {
     this.socket.listen(MainSocketEvents.tasksCreateSuccess, cb);
   }
+
+  emitUpdateTask(payload: {
+    boardId: string;
+    taskId: string;
+    fields: { title?: string; description?: string; columnId?: string };
+  }): void {
+    this.socket.emit(MainSocketEvents.tasksUpdate, payload);
+  }
+
+  listenUpdateTaskSuccess(cb: (updatedTask: Task) => void): void {
+    this.socket.listen(MainSocketEvents.tasksUpdateSuccess, cb);
+  }
+
+  emitDeleteTask(payload: { taskId: string; boardId: string }): void {
+    this.socket.emit(MainSocketEvents.tasksDelete, payload);
+  }
+
+  listenDeleteTaskSuccess(cb: (deletedTask: Task) => void): void {
+    this.socket.listen(MainSocketEvents.tasksDeleteSuccess, cb);
+  }
 }
 
 export const mainSocket = new MainSocket(new Socket());

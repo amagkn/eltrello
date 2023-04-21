@@ -9,3 +9,14 @@ export const getTasks = async (boardId: string): Promise<Task[] | null> =>
 
 export const createTask = async (taskDto: CreateTaskDto) =>
   mainSocket.emitCreateTask(taskDto);
+
+export const deleteTask = async (payload: {
+  taskId: string;
+  boardId: string;
+}) => mainSocket.emitDeleteTask(payload);
+
+export const updateTask = async (payload: {
+  boardId: string;
+  taskId: string;
+  fields: { title?: string; description?: string; columnId?: string };
+}) => mainSocket.emitUpdateTask(payload);
